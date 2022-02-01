@@ -83,7 +83,7 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
     rarities[9] = [243, 189, 133, 133, 57, 95, 152, 135, 133, 57, 222, 168, 57, 57, 38, 114, 114, 114, 255];
     aliases[9] = [1, 7, 0, 0, 0, 0, 0, 10, 0, 0, 11, 18, 0, 0, 0, 1, 7, 11, 18];
     
-    // wolves
+    // Bandit
     // fur
     rarities[10] = [210, 90, 9, 9, 9, 150, 9, 255, 9];
     aliases[10] = [5, 0, 0, 5, 5, 7, 5, 7, 5];
