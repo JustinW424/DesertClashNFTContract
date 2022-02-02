@@ -12,15 +12,15 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   
-  const CakeLP = await hre.ethers.getContractFactory("CakeLPToken");
+  const CakeLP = await hre.ethers.getContractFactory("Traits");
   const cake = await CakeLP.deploy();
   console.log("Temple ------- CakeLP deployed ------- ", cake.address);
   await cake.deployed();
   
-  const ETB = await hre.ethers.getContractFactory("ETBToken");
-  const etb = await ETB.deploy();
-  console.log("Temple ------- CakeLP deployed ------- ", etb.address);
-  await etb.deployed();
+  // const ETB = await hre.ethers.getContractFactory("ETBToken");
+  // const etb = await ETB.deploy();
+  // console.log("Temple ------- CakeLP deployed ------- ", etb.address);
+  // await etb.deployed();
 
   // const Wallet = await hre.ethers.getContractFactory("Wallet");
   // const wallet = await Wallet.deploy("0xB56CDe5115457715d326eA961E78d3aeD61be592");
