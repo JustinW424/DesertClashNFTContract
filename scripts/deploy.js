@@ -12,19 +12,25 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   
-  const CakeLP = await hre.ethers.getContractFactory("Traits");
-  const cake = await CakeLP.deploy();
-  console.log("Temple ------- CakeLP deployed ------- ", cake.address);
-  await cake.deployed();
+  const Traits = await hre.ethers.getContractFactory("Traits");
+  const traits = await Traits.deploy();
+  console.log("Temple ------- traits deployed ------- ", traits.address);
+  await traits.deployed();
   
-  // const ETB = await hre.ethers.getContractFactory("ETBToken");
-  // const etb = await ETB.deploy();
-  // console.log("Temple ------- CakeLP deployed ------- ", etb.address);
-  // await etb.deployed();
+  const GOLD = await hre.ethers.getContractFactory("GOLD");
+  const gold = await GOLD.deploy();
+  console.log("Temple ------- GOLD deployed ------- ", gold.address);
+  await gold.deployed();
 
-  // const Wallet = await hre.ethers.getContractFactory("Wallet");
-  // const wallet = await Wallet.deploy("0xB56CDe5115457715d326eA961E78d3aeD61be592");
+  // const Pool = await hre.ethers.getContractFactory("Pool");
+  // const wallet = await Pool.deploy();
+  // console.log("Temple ------- Pool deployed ------- ", gold.address);
   // await wallet.deployed();
+
+  // const Camelit = await hre.ethers.getContractFactory("Camelit");
+  // const camelit = await Camelit.deploy();
+  // console.log("Temple ------- Pool deployed ------- ", gold.address);
+  // await camelit.deployed();
 
   // console.log("wallet deployed to:", wallet.address);
 }

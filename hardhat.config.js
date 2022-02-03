@@ -21,6 +21,12 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.0",
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 200
+    }
+  },
   paths: {
     artifacts: "./src/artifacts",
   },
@@ -28,11 +34,11 @@ module.exports = {
     hardhat: {},
     ropsten: {
       url: "https://ropsten.infura.io/v3/e61ce3c1ff0f439c8cc620c964b8ecef",
-      accounts: ApiKey,
+      accounts: [ApiKey],
     },
     rinkeby: {
       url: "https://rinkeby.infura.io/v3/2685ba1bcbf54312bb8683ddcc02f79d",
-      accounts: ApiKey,
+      accounts: [ApiKey],
       apiKey: `8ZFFIRUXPPWQ74H525YIX8NMZQ26M35RZR`
     },
     // tron: {
@@ -45,17 +51,17 @@ module.exports = {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
       gasPrice: 20000000000,
-      accounts: ApiKey
+      accounts: [ApiKey]
     },
     bsc_mainnet: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
       gasPrice: 20000000000,
-      accounts: ApiKey
+      accounts: [ApiKey]
     },
     mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",
-      ApiKey,
+      accounts: [ApiKey],
     },
   },
   etherscan: {
