@@ -41,6 +41,16 @@ module.exports = {
       accounts: [ApiKey],
       apiKey: `8ZFFIRUXPPWQ74H525YIX8NMZQ26M35RZR`
     },
+    // mumbai: {
+    //   url: "https://rpc-mumbai.maticvigil.com",
+    //   accounts: [ApiKey],
+    //   apiKey: 'https://polygon-mumbai.g.alchemy.com/v2/w16u7DEGP20MnCvzDamBYWkmt1mCI1xa'
+    // },
+    mumbai: {
+      url: 'https://rpc-mumbai.maticvigil.com',
+      accounts: [ApiKey],
+      // apiKey: `DDX84A74SWWTF7J1YEMPWT46FC86Q8YC11`
+    },
     // tron: {
     //   url: "https://api.trongrid.io",
     //   accounts: [
@@ -59,14 +69,12 @@ module.exports = {
       gasPrice: 20000000000,
       accounts: [ApiKey]
     },
-    mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      accounts: [ApiKey],
-    },
+    
   },
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://bscscan.com/
-    apiKey: "8ZFFIRUXPPWQ74H525YIX8NMZQ26M35RZR"
+    apiKey: "DDX84A74SWWTF7J1YEMPWT46FC86Q8YC11"    // polygon api key
+    // apiKey: "8ZFFIRUXPPWQ74H525YIX8NMZQ26M35RZR"
   },
 };

@@ -20,6 +20,8 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
   // number of tokens have been minted so far
   uint16 public minted;
 
+  mapping(address=>uint) public ownedTokens; 
+
   // mapping from tokenId to a struct containing the token's traits
   mapping(uint256 => CamelBandit) public tokenTraits;
   // mapping from hashed(tokenTrait) to the tokenId it's associated with
@@ -124,6 +126,7 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
    */
   function mint(uint256 amount, bool stake) external payable whenNotPaused {
     require(tx.origin == _msgSender(), "Only EOA");
+    require(ownedTokens[_msgSender()] < 35 , "Overflow the amount of the maximum ownable token");
     require(minted + amount <= MAX_TOKENS, "All tokens minted");
     require(amount > 0 && amount <= 5, "Invalid mint amount");
     if (minted < PAID_TOKENS) {
