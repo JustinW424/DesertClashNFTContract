@@ -47,7 +47,8 @@ module.exports = {
     //   apiKey: 'https://polygon-mumbai.g.alchemy.com/v2/w16u7DEGP20MnCvzDamBYWkmt1mCI1xa'
     // },
     mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com',
+      // url: 'https://rpc-mumbai.maticvigil.com',
+      url: 'https://rpc-mumbai.matic.today',
       accounts: [ApiKey],
       // apiKey: `DDX84A74SWWTF7J1YEMPWT46FC86Q8YC11`
     },
