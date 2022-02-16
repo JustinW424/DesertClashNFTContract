@@ -14,8 +14,10 @@ describe("Camelit : ", function () {
     const var1 = await camel.rand(12500);
     console.log("rand : ", var1);
     const var2 = await camel.getSlice(4, 4, "sinjenfetchtext");
+    console.log("getSlice : ", var2);
+    const var3 = await camel.mint(1, 0, { value: ethers.utils.parseEther("0.03") });
+    console.log("mint : ", var3);
     // const var2 = await camel.getTokenIdAndMarkAsUsed(string_camel_bandit, 1165);
-    console.log("rand : ", var2);
     // expect(
     //   await camel.rand(12500)
     // ).to.equal();

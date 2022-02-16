@@ -4,11 +4,14 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "./IPool.sol";
 import "./GOLD.sol";
 import "./ICamelit.sol";
+import "./stringUtils.sol";
 
-contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
+contract Camelit is ICamelit, ERC721URIStorage, Ownable, Pausable {
+
     // mint price
     uint256 public constant MINT_PRICE = 0.03 ether;
     // max number of tokens that can be minted - 15000 in production
@@ -17,12 +20,16 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
     uint256 public PAID_TOKENS;
     // number of tokens have been minted so far
     uint16 public minted;
+    
 
     // the text which saved the token is camel or Bandit
     string CAMEL_BANDIT;
 
     // Token's type
     mapping(address => uint256[]) public ownedTokens;
+
+    string BASE_URI =
+        "https://ipfs.io/ipfs/QmXPsSBSqeWFQwsRsifkxVZS8yeLpTE8H52MmH8AaQjqQn/";
 
     // reference to the Pool for choosing random Bandit
     IPool public pool;
@@ -41,6 +48,8 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
         MAX_TOKENS = _maxTokens;
         PAID_TOKENS = 5000;
         CAMEL_BANDIT = _camelbandit;
+        BASE_URI = "https://ipfs.io/ipfs/QmXPsSBSqeWFQwsRsifkxVZS8yeLpTE8H52MmH8AaQjqQn/";
+        minted = 1;
     }
 
     /** EXTERNAL */
@@ -68,27 +77,38 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
         }
 
         // for test.
-        // uint256 totalGold = 0;
-        // uint16[] memory tokenIds = stake
-        //     ? new uint16[](amount)
-        //     : new uint16[](0);
-        // uint256 seed;
-        // for (uint256 i = 0; i < amount; i++) {
-        //     minted++;
-        //     seed = random(minted);
-        //     generate(minted, seed);
-        //     address recipient = selectRecipient(seed);
-        //     if (!stake || recipient != _msgSender()) {
-        //         _safeMint(recipient, minted);
-        //     } else {
-        //         _safeMint(address(pool), minted);
-        //         tokenIds[i] = minted;
-        //     }
-        //     totalGold += mintCost(minted);
-        // }
+        uint256 totalGold = 0;
+        uint16[] memory tokenIds = stake
+            ? new uint16[](amount)
+            : new uint16[](0);
+        for (uint256 i = 0; i < amount; i++) {
+            minted++;
+            // if (!stake || recipient != _msgSender()) {
+            //     _safeMint(recipient, minted);
+            // } else {
+            //     _safeMint(address(pool), minted);
+            //     tokenIds[i] = minted;
+            // }
+            _safeMint(_msgSender(), minted);
+            _setTokenURI(
+                minted,
+                string(
+                    abi.encodePacked(
+                        "https://ipfs.io/ipfs/QmXPsSBSqeWFQwsRsifkxVZS8yeLpTE8H52MmH8AaQjqQn/",
+                        uintToString(minted),
+                        ".png"
+                    )
+                )
+            );
+            // totalGold += mintCost(minted);
+        }
 
         // if (totalGold > 0) gold.burn(_msgSender(), totalGold);
         // if (stake) pool.addManyToPool(_msgSender(), tokenIds);
+    }
+
+    function setBaseURI(string memory _uri) public onlyOwner {
+        BASE_URI = _uri;
     }
 
     /** 
@@ -180,14 +200,48 @@ contract Camelit is ICamelit, ERC721Enumerable, Ownable, Pausable {
         return seed;
     }
 
-    function getTokenIdAndMarkAsUsed(
-        string memory camelbandit,
-        uint256 randomindex
-    ) public pure returns (uint256, uint8) {
-        bytes memory a = new bytes(1);
-        while (uint8(a[0]) == 2) {
-            a[0] = bytes(camelbandit)[randomindex];
+    function uintToString(uint16 v) private pure returns (string memory str) {
+        uint8 maxlength = 100;
+        bytes memory reversed = new bytes(maxlength);
+        uint16 i = 0;
+        while (v != 0) {
+            uint8 remainder = uint8(v % 10);
+            v = v / 10;
+            reversed[i++] = bytes1(48 + remainder);
         }
-        return (randomindex, uint8(a));
+        bytes memory s = new bytes(i);
+        for (uint j = 0; j < i; j++) {
+            s[j] = reversed[i - 1 - j];
+        }
+        str = string(s);
     }
+
+    function uint256ToString(uint256 num) public pure returns (string memory) {
+        bytes32 x = bytes32(num);
+        bytes memory bytesString = new bytes(32);
+        uint charCount = 0;
+        for (uint j = 0; j < 32; j++) {
+            bytes1 char = bytes1(bytes32(uint(x) * 2 ** (8 * j)));
+            if (char != 0) {
+                bytesString[charCount] = char;
+                charCount++;
+            }
+        }
+        bytes memory bytesStringTrimmed = new bytes(charCount);
+        for (uint j = 0; j < charCount; j++) {
+            bytesStringTrimmed[j] = bytesString[j];
+    }
+    return string(bytesStringTrimmed);
+}
+
+    // function getTokenIdAndMarkAsUsed(
+    //     string memory camelbandit,
+    //     uint256 randomindex
+    // ) public pure returns (uint256, uint8) {
+    //     bytes memory a = new bytes(1);
+    //     while (uint8(a[0]) == 2) {
+    //         a[0] = bytes(camelbandit)[randomindex];
+    //     }
+    //     return (randomindex, uint8(a));
+    // }
 }
